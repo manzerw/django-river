@@ -1,1 +1,1 @@
-default_app_config = 'river.apps.RiverApp'
+default_app_config = "river.apps.RiverApp"

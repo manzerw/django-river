@@ -1,12 +1,10 @@
-from datetime import datetime
-
 from behave import given, when, then
+from datetime import datetime
 from hamcrest import assert_that, has_length, is_
-
 from river.models import State
 
 
-@given('a permission with name {name:w}')
+@given("a permission with name {name:w}")
 def permission(context, name):
     from river.models.factories import PermissionObjectFactory
 
@@ -50,8 +48,12 @@ def workflow(context, identifier):
     context.workflow_identifier = identifier
 
 
-@given('a transition "{source_state_label:ws}" -> "{destination_state_label:ws}" in "{workflow_identifier:ws}"')
-def transition(context, source_state_label, destination_state_label, workflow_identifier):
+@given(
+    'a transition "{source_state_label:ws}" -> "{destination_state_label:ws}" in "{workflow_identifier:ws}"'
+)
+def transition(
+    context, source_state_label, destination_state_label, workflow_identifier
+):
     from river.models import State
     from django.contrib.contenttypes.models import ContentType
     from river.models.factories import TransitionMetaFactory
@@ -62,7 +64,9 @@ def transition(context, source_state_label, destination_state_label, workflow_id
     workflow = getattr(context, "workflows", {}).get(workflow_identifier, None)
     if not workflow:
         content_type = ContentType.objects.get_for_model(BasicTestModel)
-        workflow = WorkflowFactory(initial_state=source_state, content_type=content_type, field_name="my_field")
+        workflow = WorkflowFactory(
+            initial_state=source_state, content_type=content_type, field_name="my_field"
+        )
         if "workflows" not in context:
             context.workflows = {}
         context.workflows[workflow_identifier] = workflow
@@ -79,8 +83,12 @@ def transition(context, source_state_label, destination_state_label, workflow_id
     context.transitions = transitions
 
 
-@given('an authorization rule for the transition "{source_state_label:ws}" -> "{destination_state_label:ws}" with permission "{permission_name:ws}" and priority {priority:d}')
-def authorization_rule_with_permission(context, source_state_label, destination_state_label, permission_name, priority):
+@given(
+    'an authorization rule for the transition "{source_state_label:ws}" -> "{destination_state_label:ws}" with permission "{permission_name:ws}" and priority {priority:d}'
+)
+def authorization_rule_with_permission(
+    context, source_state_label, destination_state_label, permission_name, priority
+):
     from django.contrib.auth.models import Permission
     from river.models.factories import TransitionApprovalMetaFactory
 
@@ -91,17 +99,27 @@ def authorization_rule_with_permission(context, source_state_label, destination_
         workflow=transition_meta.workflow,
         transition_meta=transition_meta,
         priority=priority,
-        permissions=[permission]
+        permissions=[permission],
     )
 
 
-@given('an authorization rule for the transition "{source_state_label:ws}" -> "{destination_state_label:ws}" with group "{group_name:ws}" and priority {priority:d}')
-def authorization_rule_with_group(context, source_state_label, destination_state_label, group_name, priority):
-    authorization_rule_with_groups(context, source_state_label, destination_state_label, [group_name], priority)
+@given(
+    'an authorization rule for the transition "{source_state_label:ws}" -> "{destination_state_label:ws}" with group "{group_name:ws}" and priority {priority:d}'
+)
+def authorization_rule_with_group(
+    context, source_state_label, destination_state_label, group_name, priority
+):
+    authorization_rule_with_groups(
+        context, source_state_label, destination_state_label, [group_name], priority
+    )
 
 
-@given('an authorization rule for the transition "{source_state_label:ws}" -> "{destination_state_label:ws}" with groups "{group_names:list}" and priority {priority:d}')
-def authorization_rule_with_groups(context, source_state_label, destination_state_label, group_names, priority):
+@given(
+    'an authorization rule for the transition "{source_state_label:ws}" -> "{destination_state_label:ws}" with groups "{group_names:list}" and priority {priority:d}'
+)
+def authorization_rule_with_groups(
+    context, source_state_label, destination_state_label, group_names, priority
+):
     from django.contrib.auth.models import Group
     from river.models.factories import TransitionApprovalMetaFactory
 
@@ -130,18 +148,20 @@ def jump_workflow_object(context, workflow_object_identifier, state_label):
     from river.models import State
 
     state = State.objects.get(label=state_label)
-    workflow_object = getattr(context, "workflow_objects", {})[workflow_object_identifier]
+    workflow_object = getattr(context, "workflow_objects", {})[
+        workflow_object_identifier
+    ]
     workflow_object.river.my_field.jump_to(state)
 
 
-@given('{number:d} workflow objects')
+@given("{number:d} workflow objects")
 def many_workflow_object(context, number):
     from river.tests.models.factories import BasicTestModelObjectFactory
 
     BasicTestModelObjectFactory.create_batch(250)
 
 
-@when('available approvals are fetched with user {username:w}')
+@when("available approvals are fetched with user {username:w}")
 def fetched_approvals(context, username):
     from django.contrib.auth.models import User
     from river.tests.models import BasicTestModel
@@ -155,8 +175,11 @@ def fetched_approvals(context, username):
 
 @when('get current state of "{workflow_object_identifier:ws}"')
 def get_current_state(context, workflow_object_identifier):
-    workflow_object = getattr(context, "workflow_objects", {})[workflow_object_identifier]
+    workflow_object = getattr(context, "workflow_objects", {})[
+        workflow_object_identifier
+    ]
     from river.tests.models import BasicTestModel
+
     workflow_object = BasicTestModel.objects.get(pk=workflow_object.pk)
     context.current_state = workflow_object.my_field
 
@@ -164,22 +187,34 @@ def get_current_state(context, workflow_object_identifier):
 @when('"{workflow_object_identifier:ws}" is attempted to be approved by {username:w}')
 def approve_by(context, workflow_object_identifier, username):
     from django.contrib.auth.models import User
-    workflow_object = getattr(context, "workflow_objects", {})[workflow_object_identifier]
+
+    workflow_object = getattr(context, "workflow_objects", {})[
+        workflow_object_identifier
+    ]
 
     user = User.objects.get(username=username)
     workflow_object.river.my_field.approve(as_user=user)
 
 
-@when('"{workflow_object_identifier:ws}" is attempted to be approved for next state "{next_state:ws}" by {username:w}')
-def approve_for_next_state_by(context, workflow_object_identifier, next_state, username):
+@when(
+    '"{workflow_object_identifier:ws}" is attempted to be approved for next state "{next_state:ws}" by {username:w}'
+)
+def approve_for_next_state_by(
+    context, workflow_object_identifier, next_state, username
+):
     from django.contrib.auth.models import User
-    workflow_object = getattr(context, "workflow_objects", {})[workflow_object_identifier]
+
+    workflow_object = getattr(context, "workflow_objects", {})[
+        workflow_object_identifier
+    ]
 
     user = User.objects.get(username=username)
-    workflow_object.river.my_field.approve(as_user=user, next_state=State.objects.get(label=next_state))
+    workflow_object.river.my_field.approve(
+        as_user=user, next_state=State.objects.get(label=next_state)
+    )
 
 
-@then('return {number:d} items')
+@then("return {number:d} items")
 def check_output_count(context, number):
     assert_that(context.result, has_length(number))
 

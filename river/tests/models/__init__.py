@@ -1,8 +1,6 @@
-from uuid import uuid4
-
 from django.db import models
-
 from river.models.fields.state import StateField
+from uuid import uuid4
 
 
 class BasicTestModel(models.Model):

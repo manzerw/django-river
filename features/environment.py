@@ -1,6 +1,5 @@
-import os
-
 import django
+import os
 from behave import register_type
 from django.core import management
 
@@ -12,7 +11,7 @@ def before_all(context):
 
 
 def before_scenario(context, scenario):
-    management.call_command('flush', interactive=False)
+    management.call_command("flush", interactive=False)
 
 
 def parse_string_with_whitespace(text):
@@ -20,7 +19,11 @@ def parse_string_with_whitespace(text):
 
 
 def parse_list(text):
-    return [better_item.strip() for item in text.split(" or ") for better_item in item.split(" and ")]
+    return [
+        better_item.strip()
+        for item in text.split(" or ")
+        for better_item in item.split(" and ")
+    ]
 
 
 # -- REGISTER: User-defined type converter (parse_type).

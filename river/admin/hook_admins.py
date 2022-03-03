@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
-
 from river.core.workflowregistry import workflow_registry
 from river.models import OnApprovedHook, OnTransitHook, OnCompleteHook
 
@@ -30,11 +29,7 @@ class OnCompleteHookInline(BaseHookInline):
 
 
 class DefaultWorkflowModelAdmin(admin.ModelAdmin):
-    inlines = [
-        OnApprovedHookInline,
-        OnTransitHookInline,
-        OnCompleteHookInline
-    ]
+    inlines = [OnApprovedHookInline, OnTransitHookInline, OnCompleteHookInline]
 
     def __init__(self, *args, **kwargs):
         super(DefaultWorkflowModelAdmin, self).__init__(*args, **kwargs)
@@ -42,15 +37,15 @@ class DefaultWorkflowModelAdmin(admin.ModelAdmin):
 
 
 class OnApprovedHookAdmin(admin.ModelAdmin):
-    list_display = ('workflow', 'callback_function', 'transition_approval_meta')
+    list_display = ("workflow", "callback_function", "transition_approval_meta")
 
 
 class OnTransitHookAdmin(admin.ModelAdmin):
-    list_display = ('workflow', 'callback_function', 'transition_meta')
+    list_display = ("workflow", "callback_function", "transition_meta")
 
 
 class OnCompleteHookAdmin(admin.ModelAdmin):
-    list_display = ('workflow', 'callback_function')
+    list_display = ("workflow", "callback_function")
 
 
 admin.site.register(OnApprovedHook, OnApprovedHookAdmin)

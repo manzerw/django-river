@@ -1,8 +1,5 @@
-
-
 from django.db.models import QuerySet
 from django.db.models.manager import BaseManager
-
 from river.config import app_config
 
 

@@ -9,278 +9,781 @@ import mptt.fields
 
 
 class Migration(migrations.Migration):
-
     initial = True
-
     dependencies = [
-        ('contenttypes', '0002_remove_content_type_name'),
+        ("contenttypes", "0002_remove_content_type_name"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('auth', '0008_alter_user_username_max_length'),
+        ("auth", "0008_alter_user_username_max_length"),
     ]
-
     operations = [
         migrations.CreateModel(
-            name='Function',
+            name="Function",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_created', models.DateTimeField(auto_now_add=True, null=True, verbose_name='Date Created')),
-                ('date_updated', models.DateTimeField(auto_now=True, null=True, verbose_name='Date Updated')),
-                ('name', models.CharField(max_length=200, unique=True, verbose_name='Function Name')),
-                ('body', models.TextField(max_length=100000, verbose_name='Function Body')),
-                ('version', models.IntegerField(default=0, verbose_name='Function Version')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "date_created",
+                    models.DateTimeField(
+                        auto_now_add=True, null=True, verbose_name="Date Created"
+                    ),
+                ),
+                (
+                    "date_updated",
+                    models.DateTimeField(
+                        auto_now=True, null=True, verbose_name="Date Updated"
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=200, unique=True, verbose_name="Function Name"
+                    ),
+                ),
+                (
+                    "body",
+                    models.TextField(max_length=100000, verbose_name="Function Body"),
+                ),
+                (
+                    "version",
+                    models.IntegerField(default=0, verbose_name="Function Version"),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='OnApprovedHook',
+            name="OnApprovedHook",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_created', models.DateTimeField(auto_now_add=True, null=True, verbose_name='Date Created')),
-                ('date_updated', models.DateTimeField(auto_now=True, null=True, verbose_name='Date Updated')),
-                ('object_id', models.CharField(blank=True, max_length=200, null=True)),
-                ('hook_type', models.CharField(choices=[(b'BEFORE', 'Before'), (b'AFTER', 'After')], max_length=50, verbose_name='When?')),
-                ('callback_function', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='river_onapprovedhook_hooks', to='river.Function', verbose_name='Function')),
-                ('content_type', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='contenttypes.ContentType')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "date_created",
+                    models.DateTimeField(
+                        auto_now_add=True, null=True, verbose_name="Date Created"
+                    ),
+                ),
+                (
+                    "date_updated",
+                    models.DateTimeField(
+                        auto_now=True, null=True, verbose_name="Date Updated"
+                    ),
+                ),
+                ("object_id", models.CharField(blank=True, max_length=200, null=True)),
+                (
+                    "hook_type",
+                    models.CharField(
+                        choices=[(b"BEFORE", "Before"), (b"AFTER", "After")],
+                        max_length=50,
+                        verbose_name="When?",
+                    ),
+                ),
+                (
+                    "callback_function",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="river_onapprovedhook_hooks",
+                        to="river.Function",
+                        verbose_name="Function",
+                    ),
+                ),
+                (
+                    "content_type",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="contenttypes.ContentType",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='OnCompleteHook',
+            name="OnCompleteHook",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_created', models.DateTimeField(auto_now_add=True, null=True, verbose_name='Date Created')),
-                ('date_updated', models.DateTimeField(auto_now=True, null=True, verbose_name='Date Updated')),
-                ('object_id', models.CharField(blank=True, max_length=200, null=True)),
-                ('hook_type', models.CharField(choices=[(b'BEFORE', 'Before'), (b'AFTER', 'After')], max_length=50, verbose_name='When?')),
-                ('callback_function', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='river_oncompletehook_hooks', to='river.Function', verbose_name='Function')),
-                ('content_type', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='contenttypes.ContentType')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "date_created",
+                    models.DateTimeField(
+                        auto_now_add=True, null=True, verbose_name="Date Created"
+                    ),
+                ),
+                (
+                    "date_updated",
+                    models.DateTimeField(
+                        auto_now=True, null=True, verbose_name="Date Updated"
+                    ),
+                ),
+                ("object_id", models.CharField(blank=True, max_length=200, null=True)),
+                (
+                    "hook_type",
+                    models.CharField(
+                        choices=[(b"BEFORE", "Before"), (b"AFTER", "After")],
+                        max_length=50,
+                        verbose_name="When?",
+                    ),
+                ),
+                (
+                    "callback_function",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="river_oncompletehook_hooks",
+                        to="river.Function",
+                        verbose_name="Function",
+                    ),
+                ),
+                (
+                    "content_type",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="contenttypes.ContentType",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='OnTransitHook',
+            name="OnTransitHook",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_created', models.DateTimeField(auto_now_add=True, null=True, verbose_name='Date Created')),
-                ('date_updated', models.DateTimeField(auto_now=True, null=True, verbose_name='Date Updated')),
-                ('object_id', models.CharField(blank=True, max_length=200, null=True)),
-                ('hook_type', models.CharField(choices=[(b'BEFORE', 'Before'), (b'AFTER', 'After')], max_length=50, verbose_name='When?')),
-                ('callback_function', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='river_ontransithook_hooks', to='river.Function', verbose_name='Function')),
-                ('content_type', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='contenttypes.ContentType')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "date_created",
+                    models.DateTimeField(
+                        auto_now_add=True, null=True, verbose_name="Date Created"
+                    ),
+                ),
+                (
+                    "date_updated",
+                    models.DateTimeField(
+                        auto_now=True, null=True, verbose_name="Date Updated"
+                    ),
+                ),
+                ("object_id", models.CharField(blank=True, max_length=200, null=True)),
+                (
+                    "hook_type",
+                    models.CharField(
+                        choices=[(b"BEFORE", "Before"), (b"AFTER", "After")],
+                        max_length=50,
+                        verbose_name="When?",
+                    ),
+                ),
+                (
+                    "callback_function",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="river_ontransithook_hooks",
+                        to="river.Function",
+                        verbose_name="Function",
+                    ),
+                ),
+                (
+                    "content_type",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="contenttypes.ContentType",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='State',
+            name="State",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_created', models.DateTimeField(auto_now_add=True, null=True, verbose_name='Date Created')),
-                ('date_updated', models.DateTimeField(auto_now=True, null=True, verbose_name='Date Updated')),
-                ('slug', models.SlugField(blank=True, null=True, unique=True)),
-                ('label', models.CharField(max_length=50)),
-                ('description', models.CharField(blank=True, max_length=200, null=True, verbose_name='Description')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "date_created",
+                    models.DateTimeField(
+                        auto_now_add=True, null=True, verbose_name="Date Created"
+                    ),
+                ),
+                (
+                    "date_updated",
+                    models.DateTimeField(
+                        auto_now=True, null=True, verbose_name="Date Updated"
+                    ),
+                ),
+                ("slug", models.SlugField(blank=True, null=True, unique=True)),
+                ("label", models.CharField(max_length=50)),
+                (
+                    "description",
+                    models.CharField(
+                        blank=True,
+                        max_length=200,
+                        null=True,
+                        verbose_name="Description",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'State',
-                'verbose_name_plural': 'States',
+                "verbose_name": "State",
+                "verbose_name_plural": "States",
             },
         ),
         migrations.CreateModel(
-            name='Transition',
+            name="Transition",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_created', models.DateTimeField(auto_now_add=True, null=True, verbose_name='Date Created')),
-                ('date_updated', models.DateTimeField(auto_now=True, null=True, verbose_name='Date Updated')),
-                ('object_id', models.CharField(max_length=50, verbose_name='Related Object')),
-                ('status', models.CharField(choices=[(b'pending', 'Pending'), (b'cancelled', 'Cancelled'), (b'done', 'Done'), (b'jumped', 'Jumped')], default=b'pending', max_length=100, verbose_name='Status')),
-                ('iteration', models.IntegerField(default=0, verbose_name='Priority')),
-                ('content_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType', verbose_name='Content Type')),
-                ('destination_state', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='transition_as_destination', to='river.State', verbose_name='Destination State')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "date_created",
+                    models.DateTimeField(
+                        auto_now_add=True, null=True, verbose_name="Date Created"
+                    ),
+                ),
+                (
+                    "date_updated",
+                    models.DateTimeField(
+                        auto_now=True, null=True, verbose_name="Date Updated"
+                    ),
+                ),
+                (
+                    "object_id",
+                    models.CharField(max_length=50, verbose_name="Related Object"),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            (b"pending", "Pending"),
+                            (b"cancelled", "Cancelled"),
+                            (b"done", "Done"),
+                            (b"jumped", "Jumped"),
+                        ],
+                        default=b"pending",
+                        max_length=100,
+                        verbose_name="Status",
+                    ),
+                ),
+                ("iteration", models.IntegerField(default=0, verbose_name="Priority")),
+                (
+                    "content_type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="contenttypes.ContentType",
+                        verbose_name="Content Type",
+                    ),
+                ),
+                (
+                    "destination_state",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="transition_as_destination",
+                        to="river.State",
+                        verbose_name="Destination State",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Transition',
-                'verbose_name_plural': 'Transitions',
+                "verbose_name": "Transition",
+                "verbose_name_plural": "Transitions",
             },
         ),
         migrations.CreateModel(
-            name='TransitionApproval',
+            name="TransitionApproval",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_created', models.DateTimeField(auto_now_add=True, null=True, verbose_name='Date Created')),
-                ('date_updated', models.DateTimeField(auto_now=True, null=True, verbose_name='Date Updated')),
-                ('object_id', models.CharField(max_length=50, verbose_name='Related Object')),
-                ('transaction_date', models.DateTimeField(blank=True, null=True)),
-                ('status', models.CharField(choices=[(b'pending', 'Pending'), (b'approved', 'Approved'), (b'cancelled', 'Cancelled'), (b'jumped', 'Jumped')], default=b'pending', max_length=100, verbose_name='Status')),
-                ('priority', models.IntegerField(default=0, verbose_name='Priority')),
-                ('content_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType', verbose_name='Content Type')),
-                ('groups', models.ManyToManyField(to='auth.Group', verbose_name='Groups')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "date_created",
+                    models.DateTimeField(
+                        auto_now_add=True, null=True, verbose_name="Date Created"
+                    ),
+                ),
+                (
+                    "date_updated",
+                    models.DateTimeField(
+                        auto_now=True, null=True, verbose_name="Date Updated"
+                    ),
+                ),
+                (
+                    "object_id",
+                    models.CharField(max_length=50, verbose_name="Related Object"),
+                ),
+                ("transaction_date", models.DateTimeField(blank=True, null=True)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            (b"pending", "Pending"),
+                            (b"approved", "Approved"),
+                            (b"cancelled", "Cancelled"),
+                            (b"jumped", "Jumped"),
+                        ],
+                        default=b"pending",
+                        max_length=100,
+                        verbose_name="Status",
+                    ),
+                ),
+                ("priority", models.IntegerField(default=0, verbose_name="Priority")),
+                (
+                    "content_type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="contenttypes.ContentType",
+                        verbose_name="Content Type",
+                    ),
+                ),
+                (
+                    "groups",
+                    models.ManyToManyField(to="auth.Group", verbose_name="Groups"),
+                ),
             ],
             options={
-                'verbose_name': 'Transition Approval',
-                'verbose_name_plural': 'Transition Approvals',
+                "verbose_name": "Transition Approval",
+                "verbose_name_plural": "Transition Approvals",
             },
         ),
         migrations.CreateModel(
-            name='TransitionApprovalMeta',
+            name="TransitionApprovalMeta",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_created', models.DateTimeField(auto_now_add=True, null=True, verbose_name='Date Created')),
-                ('date_updated', models.DateTimeField(auto_now=True, null=True, verbose_name='Date Updated')),
-                ('priority', models.IntegerField(default=0, null=True, verbose_name='Priority')),
-                ('groups', models.ManyToManyField(blank=True, to='auth.Group', verbose_name='Groups')),
-                ('parents', models.ManyToManyField(blank=True, db_index=True, related_name='children', to='river.TransitionApprovalMeta', verbose_name='parents')),
-                ('permissions', models.ManyToManyField(blank=True, to='auth.Permission', verbose_name='Permissions')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "date_created",
+                    models.DateTimeField(
+                        auto_now_add=True, null=True, verbose_name="Date Created"
+                    ),
+                ),
+                (
+                    "date_updated",
+                    models.DateTimeField(
+                        auto_now=True, null=True, verbose_name="Date Updated"
+                    ),
+                ),
+                (
+                    "priority",
+                    models.IntegerField(default=0, null=True, verbose_name="Priority"),
+                ),
+                (
+                    "groups",
+                    models.ManyToManyField(
+                        blank=True, to="auth.Group", verbose_name="Groups"
+                    ),
+                ),
+                (
+                    "parents",
+                    models.ManyToManyField(
+                        blank=True,
+                        db_index=True,
+                        related_name="children",
+                        to="river.TransitionApprovalMeta",
+                        verbose_name="parents",
+                    ),
+                ),
+                (
+                    "permissions",
+                    models.ManyToManyField(
+                        blank=True, to="auth.Permission", verbose_name="Permissions"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Transition Approval Meta',
-                'verbose_name_plural': 'Transition Approval Meta',
+                "verbose_name": "Transition Approval Meta",
+                "verbose_name_plural": "Transition Approval Meta",
             },
         ),
         migrations.CreateModel(
-            name='TransitionMeta',
+            name="TransitionMeta",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_created', models.DateTimeField(auto_now_add=True, null=True, verbose_name='Date Created')),
-                ('date_updated', models.DateTimeField(auto_now=True, null=True, verbose_name='Date Updated')),
-                ('destination_state', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='transition_meta_as_destination', to='river.State', verbose_name='Destination State')),
-                ('source_state', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='transition_meta_as_source', to='river.State', verbose_name='Source State')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "date_created",
+                    models.DateTimeField(
+                        auto_now_add=True, null=True, verbose_name="Date Created"
+                    ),
+                ),
+                (
+                    "date_updated",
+                    models.DateTimeField(
+                        auto_now=True, null=True, verbose_name="Date Updated"
+                    ),
+                ),
+                (
+                    "destination_state",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="transition_meta_as_destination",
+                        to="river.State",
+                        verbose_name="Destination State",
+                    ),
+                ),
+                (
+                    "source_state",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="transition_meta_as_source",
+                        to="river.State",
+                        verbose_name="Source State",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Transition Meta',
-                'verbose_name_plural': 'Transition Meta',
+                "verbose_name": "Transition Meta",
+                "verbose_name_plural": "Transition Meta",
             },
         ),
         migrations.CreateModel(
-            name='Workflow',
+            name="Workflow",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_created', models.DateTimeField(auto_now_add=True, null=True, verbose_name='Date Created')),
-                ('date_updated', models.DateTimeField(auto_now=True, null=True, verbose_name='Date Updated')),
-                ('field_name', models.CharField(max_length=200, verbose_name='Field Name')),
-                ('content_type', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='contenttypes.ContentType', verbose_name='Content Type')),
-                ('initial_state', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='workflow_this_set_as_initial_state', to='river.State', verbose_name='Initial State')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "date_created",
+                    models.DateTimeField(
+                        auto_now_add=True, null=True, verbose_name="Date Created"
+                    ),
+                ),
+                (
+                    "date_updated",
+                    models.DateTimeField(
+                        auto_now=True, null=True, verbose_name="Date Updated"
+                    ),
+                ),
+                (
+                    "field_name",
+                    models.CharField(max_length=200, verbose_name="Field Name"),
+                ),
+                (
+                    "content_type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="contenttypes.ContentType",
+                        verbose_name="Content Type",
+                    ),
+                ),
+                (
+                    "initial_state",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="workflow_this_set_as_initial_state",
+                        to="river.State",
+                        verbose_name="Initial State",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Workflow',
-                'verbose_name_plural': 'Workflows',
+                "verbose_name": "Workflow",
+                "verbose_name_plural": "Workflows",
             },
         ),
         migrations.AddField(
-            model_name='transitionmeta',
-            name='workflow',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='transition_metas', to='river.Workflow', verbose_name='Workflow'),
+            model_name="transitionmeta",
+            name="workflow",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="transition_metas",
+                to="river.Workflow",
+                verbose_name="Workflow",
+            ),
         ),
         migrations.AddField(
-            model_name='transitionapprovalmeta',
-            name='transition_meta',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='transition_approval_meta', to='river.TransitionMeta', verbose_name='Transition Meta'),
+            model_name="transitionapprovalmeta",
+            name="transition_meta",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="transition_approval_meta",
+                to="river.TransitionMeta",
+                verbose_name="Transition Meta",
+            ),
         ),
         migrations.AddField(
-            model_name='transitionapprovalmeta',
-            name='workflow',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='transition_approval_metas', to='river.Workflow', verbose_name='Workflow'),
+            model_name="transitionapprovalmeta",
+            name="workflow",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="transition_approval_metas",
+                to="river.Workflow",
+                verbose_name="Workflow",
+            ),
         ),
         migrations.AddField(
-            model_name='transitionapproval',
-            name='meta',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='transition_approvals', to='river.TransitionApprovalMeta', verbose_name='Meta'),
+            model_name="transitionapproval",
+            name="meta",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="transition_approvals",
+                to="river.TransitionApprovalMeta",
+                verbose_name="Meta",
+            ),
         ),
         migrations.AddField(
-            model_name='transitionapproval',
-            name='permissions',
-            field=models.ManyToManyField(to='auth.Permission', verbose_name='Permissions'),
+            model_name="transitionapproval",
+            name="permissions",
+            field=models.ManyToManyField(
+                to="auth.Permission", verbose_name="Permissions"
+            ),
         ),
         migrations.AddField(
-            model_name='transitionapproval',
-            name='previous',
-            field=mptt.fields.TreeOneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='next_transition', to='river.TransitionApproval', verbose_name='Previous Transition'),
+            model_name="transitionapproval",
+            name="previous",
+            field=mptt.fields.TreeOneToOneField(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="next_transition",
+                to="river.TransitionApproval",
+                verbose_name="Previous Transition",
+            ),
         ),
         migrations.AddField(
-            model_name='transitionapproval',
-            name='transactioner',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL, verbose_name='Transactioner'),
+            model_name="transitionapproval",
+            name="transactioner",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Transactioner",
+            ),
         ),
         migrations.AddField(
-            model_name='transitionapproval',
-            name='transition',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='transition_approvals', to='river.Transition', verbose_name='Transition'),
+            model_name="transitionapproval",
+            name="transition",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="transition_approvals",
+                to="river.Transition",
+                verbose_name="Transition",
+            ),
         ),
         migrations.AddField(
-            model_name='transitionapproval',
-            name='workflow',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='transition_approvals', to='river.Workflow', verbose_name='Workflow'),
+            model_name="transitionapproval",
+            name="workflow",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="transition_approvals",
+                to="river.Workflow",
+                verbose_name="Workflow",
+            ),
         ),
         migrations.AddField(
-            model_name='transition',
-            name='meta',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='transitions', to='river.TransitionMeta', verbose_name='Meta'),
+            model_name="transition",
+            name="meta",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="transitions",
+                to="river.TransitionMeta",
+                verbose_name="Meta",
+            ),
         ),
         migrations.AddField(
-            model_name='transition',
-            name='source_state',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='transition_as_source', to='river.State', verbose_name='Source State'),
+            model_name="transition",
+            name="source_state",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="transition_as_source",
+                to="river.State",
+                verbose_name="Source State",
+            ),
         ),
         migrations.AddField(
-            model_name='transition',
-            name='workflow',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='transitions', to='river.Workflow', verbose_name='Workflow'),
+            model_name="transition",
+            name="workflow",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="transitions",
+                to="river.Workflow",
+                verbose_name="Workflow",
+            ),
         ),
         migrations.AddField(
-            model_name='ontransithook',
-            name='transition',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='on_transit_hooks', to='river.Transition', verbose_name='Transition'),
+            model_name="ontransithook",
+            name="transition",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="on_transit_hooks",
+                to="river.Transition",
+                verbose_name="Transition",
+            ),
         ),
         migrations.AddField(
-            model_name='ontransithook',
-            name='transition_meta',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='on_transit_hooks', to='river.TransitionMeta', verbose_name='Transition Meta'),
+            model_name="ontransithook",
+            name="transition_meta",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="on_transit_hooks",
+                to="river.TransitionMeta",
+                verbose_name="Transition Meta",
+            ),
         ),
         migrations.AddField(
-            model_name='ontransithook',
-            name='workflow',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='river_ontransithook_hooks', to='river.Workflow', verbose_name='Workflow'),
+            model_name="ontransithook",
+            name="workflow",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="river_ontransithook_hooks",
+                to="river.Workflow",
+                verbose_name="Workflow",
+            ),
         ),
         migrations.AddField(
-            model_name='oncompletehook',
-            name='workflow',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='river_oncompletehook_hooks', to='river.Workflow', verbose_name='Workflow'),
+            model_name="oncompletehook",
+            name="workflow",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="river_oncompletehook_hooks",
+                to="river.Workflow",
+                verbose_name="Workflow",
+            ),
         ),
         migrations.AddField(
-            model_name='onapprovedhook',
-            name='transition_approval',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='on_approved_hooks', to='river.TransitionApproval', verbose_name='Transition Approval'),
+            model_name="onapprovedhook",
+            name="transition_approval",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="on_approved_hooks",
+                to="river.TransitionApproval",
+                verbose_name="Transition Approval",
+            ),
         ),
         migrations.AddField(
-            model_name='onapprovedhook',
-            name='transition_approval_meta',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='on_approved_hooks', to='river.TransitionApprovalMeta', verbose_name='Transition Approval Meta'),
+            model_name="onapprovedhook",
+            name="transition_approval_meta",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="on_approved_hooks",
+                to="river.TransitionApprovalMeta",
+                verbose_name="Transition Approval Meta",
+            ),
         ),
         migrations.AddField(
-            model_name='onapprovedhook',
-            name='workflow',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='river_onapprovedhook_hooks', to='river.Workflow', verbose_name='Workflow'),
+            model_name="onapprovedhook",
+            name="workflow",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="river_onapprovedhook_hooks",
+                to="river.Workflow",
+                verbose_name="Workflow",
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='workflow',
-            unique_together=set([('content_type', 'field_name')]),
+            name="workflow",
+            unique_together=set([("content_type", "field_name")]),
         ),
         migrations.AlterUniqueTogether(
-            name='transitionmeta',
-            unique_together=set([('workflow', 'source_state', 'destination_state')]),
+            name="transitionmeta",
+            unique_together=set([("workflow", "source_state", "destination_state")]),
         ),
         migrations.AlterUniqueTogether(
-            name='transitionapprovalmeta',
-            unique_together=set([('workflow', 'transition_meta', 'priority')]),
+            name="transitionapprovalmeta",
+            unique_together=set([("workflow", "transition_meta", "priority")]),
         ),
         migrations.AlterUniqueTogether(
-            name='ontransithook',
-            unique_together=set([('callback_function', 'workflow', 'transition_meta', 'content_type', 'object_id', 'transition')]),
+            name="ontransithook",
+            unique_together=set(
+                [
+                    (
+                        "callback_function",
+                        "workflow",
+                        "transition_meta",
+                        "content_type",
+                        "object_id",
+                        "transition",
+                    )
+                ]
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='oncompletehook',
-            unique_together=set([('callback_function', 'workflow', 'content_type', 'object_id')]),
+            name="oncompletehook",
+            unique_together=set(
+                [("callback_function", "workflow", "content_type", "object_id")]
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='onapprovedhook',
-            unique_together=set([('callback_function', 'workflow', 'transition_approval_meta', 'content_type', 'object_id', 'transition_approval')]),
+            name="onapprovedhook",
+            unique_together=set(
+                [
+                    (
+                        "callback_function",
+                        "workflow",
+                        "transition_approval_meta",
+                        "content_type",
+                        "object_id",
+                        "transition_approval",
+                    )
+                ]
+            ),
         ),
     ]

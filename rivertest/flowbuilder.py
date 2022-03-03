@@ -1,18 +1,30 @@
 from collections import namedtuple
-
 from django.db import transaction
-
 from river.models import State, Workflow
 from river.models.factories import TransitionMetaFactory, TransitionApprovalMetaFactory
 from river.tests.models.factories import BasicTestModelObjectFactory
 
-RawTransition = namedtuple("RawTransition", ["source_state", "destination_state", "authorization_policies"])
+
+RawTransition = namedtuple(
+    "RawTransition",
+    ["source_state", "destination_state", "authorization_policies"],
+)
 RawState = namedtuple("RawState", ["label"])
-AuthorizationPolicy = namedtuple("RawAuthorizationPolicy", ["priority", "permissions", "groups", "user"])
+AuthorizationPolicy = namedtuple(
+    "RawAuthorizationPolicy",
+    ["priority", "permissions", "groups", "user"],
+)
 
 
 class Flow(object):
-    def __init__(self, workflow, states, transitions_metas, transitions_approval_metas, objects):
+    def __init__(
+        self,
+        workflow,
+        states,
+        transitions_metas,
+        transitions_approval_metas,
+        objects,
+    ):
         self.workflow = workflow
         self.states = states
         self.transitions_metas = transitions_metas
@@ -24,7 +36,6 @@ class Flow(object):
 
 
 class AuthorizationPolicyBuilder(object):
-
     def __init__(self):
         self._priority = 0
         self._user = None
@@ -54,11 +65,15 @@ class AuthorizationPolicyBuilder(object):
         return self
 
     def build(self):
-        return AuthorizationPolicy(self._priority, self._permissions, self._groups, self._user)
+        return AuthorizationPolicy(
+            self._priority,
+            self._permissions,
+            self._groups,
+            self._user,
+        )
 
 
 class FlowBuilder(object):
-
     def __init__(self, field_name, content_type):
         self.field_name = field_name
         self.content_type = content_type
@@ -67,8 +82,15 @@ class FlowBuilder(object):
         self.objects_count = 1
         self.object_factory = lambda: BasicTestModelObjectFactory().model
 
-    def with_transition(self, source_state, destination_state, authorization_policies=None):
-        self.raw_transitions.append(RawTransition(source_state, destination_state, authorization_policies))
+    def with_transition(
+        self,
+        source_state,
+        destination_state,
+        authorization_policies=None,
+    ):
+        self.raw_transitions.append(
+            RawTransition(source_state, destination_state, authorization_policies)
+        )
         return self
 
     def with_additional_state(self, state):
@@ -95,10 +117,18 @@ class FlowBuilder(object):
             states[state.label] = state
 
         for raw_transition in self.raw_transitions:
-            source_state, _ = State.objects.get_or_create(label=raw_transition.source_state.label)
+            source_state, _ = State.objects.get_or_create(
+                label=raw_transition.source_state.label
+            )
             if not workflow:
-                workflow = Workflow.objects.create(field_name=self.field_name, content_type=self.content_type, initial_state=source_state)
-            destination_state, _ = State.objects.get_or_create(label=raw_transition.destination_state.label)
+                workflow = Workflow.objects.create(
+                    field_name=self.field_name,
+                    content_type=self.content_type,
+                    initial_state=source_state,
+                )
+            destination_state, _ = State.objects.get_or_create(
+                label=raw_transition.destination_state.label
+            )
 
             states[source_state.label] = source_state
             states[destination_state.label] = destination_state
@@ -124,4 +154,10 @@ class FlowBuilder(object):
         for i in range(self.objects_count):
             workflow_objects.append(self.object_factory())
 
-        return Flow(workflow, states, transition_metas, transitions_approval_metas, workflow_objects)
+        return Flow(
+            workflow,
+            states,
+            transition_metas,
+            transitions_approval_metas,
+            workflow_objects,
+        )

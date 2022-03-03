@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-
 ENVIRONMENT=$1
 
 if [ -z "$ENVIRONMENT" ]; then

@@ -1,25 +1,27 @@
 from codemirror2.widgets import CodeMirrorEditor
 from django import forms
 from django.contrib import admin
-
 from river.models import Function
 
 
 class FunctionForm(forms.ModelForm):
-    body = forms.CharField(widget=CodeMirrorEditor(options={'mode': 'python'}))
-
     class Meta:
+        fields = (
+            "name",
+            "body",
+        )
         model = Function
-        fields = ('name', 'body',)
+
+    body = forms.CharField(widget=CodeMirrorEditor(options={"mode": "python"}))
 
 
 class FunctionAdmin(admin.ModelAdmin):
     form = FunctionForm
-    list_display = ('name', 'function_version', 'date_created', 'date_updated')
-    readonly_fields = ('version', 'date_created', 'date_updated')
+    list_display = ("name", "function_version", "date_created", "date_updated")
+    readonly_fields = ("version", "date_created", "date_updated")
 
     def function_version(self, obj):  # pylint: disable=no-self-use
-        return "v%s" % obj.version
+        return f"v{obj.version}"
 
 
 admin.site.register(Function, FunctionAdmin)

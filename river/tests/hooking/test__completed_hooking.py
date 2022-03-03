@@ -1,10 +1,14 @@
 from django.contrib.contenttypes.models import ContentType
 from hamcrest import assert_that, equal_to, has_entry, none, has_key, has_length
-
-from river.models.factories import PermissionObjectFactory, StateObjectFactory, UserObjectFactory
+from river.models.factories import (
+    PermissionObjectFactory,
+    StateObjectFactory,
+    UserObjectFactory,
+)
 from river.models.hook import AFTER
 from river.tests.hooking.base_hooking_test import BaseHookingTest
 from river.tests.models import BasicTestModel
+
 # noinspection DuplicatedCode
 from rivertest.flowbuilder import AuthorizationPolicyBuilder, FlowBuilder, RawState
 
@@ -22,10 +26,12 @@ class CompletedHookingTest(BaseHookingTest):
         authorization_policies = [
             AuthorizationPolicyBuilder().with_permission(authorized_permission).build(),
         ]
-        flow = FlowBuilder("my_field", content_type) \
-            .with_transition(state1, state2, authorization_policies) \
-            .with_transition(state2, state3, authorization_policies) \
+        flow = (
+            FlowBuilder("my_field", content_type)
+            .with_transition(state1, state2, authorization_policies)
+            .with_transition(state2, state3, authorization_policies)
             .build()
+        )
 
         workflow_object = flow.objects[0]
 
@@ -46,12 +52,17 @@ class CompletedHookingTest(BaseHookingTest):
         assert_that(output[0], has_key("hook"))
         assert_that(output[0]["hook"], has_entry("type", "on-complete"))
         assert_that(output[0]["hook"], has_entry("when", AFTER))
-        assert_that(output[0]["hook"], has_entry(
-            "payload",
-            has_entry(equal_to("workflow_object"), equal_to(workflow_object))
-        ))
+        assert_that(
+            output[0]["hook"],
+            has_entry(
+                "payload",
+                has_entry(equal_to("workflow_object"), equal_to(workflow_object)),
+            ),
+        )
 
-    def test_shouldInvokeCallbackThatIsRegisteredWithoutInstanceWhenFlowIsComplete(self):
+    def test_shouldInvokeCallbackThatIsRegisteredWithoutInstanceWhenFlowIsComplete(
+        self,
+    ):
         authorized_permission = PermissionObjectFactory()
         authorized_user = UserObjectFactory(user_permissions=[authorized_permission])
         content_type = ContentType.objects.get_for_model(BasicTestModel)
@@ -63,10 +74,12 @@ class CompletedHookingTest(BaseHookingTest):
         authorization_policies = [
             AuthorizationPolicyBuilder().with_permission(authorized_permission).build(),
         ]
-        flow = FlowBuilder("my_field", content_type) \
-            .with_transition(state1, state2, authorization_policies) \
-            .with_transition(state2, state3, authorization_policies) \
+        flow = (
+            FlowBuilder("my_field", content_type)
+            .with_transition(state1, state2, authorization_policies)
+            .with_transition(state2, state3, authorization_policies)
             .build()
+        )
 
         workflow_object = flow.objects[0]
 
@@ -86,7 +99,10 @@ class CompletedHookingTest(BaseHookingTest):
         assert_that(output[0], has_key("hook"))
         assert_that(output[0]["hook"], has_entry("type", "on-complete"))
         assert_that(output[0]["hook"], has_entry("when", AFTER))
-        assert_that(output[0]["hook"], has_entry(
-            "payload",
-            has_entry(equal_to("workflow_object"), equal_to(workflow_object))
-        ))
+        assert_that(
+            output[0]["hook"],
+            has_entry(
+                "payload",
+                has_entry(equal_to("workflow_object"), equal_to(workflow_object)),
+            ),
+        )
